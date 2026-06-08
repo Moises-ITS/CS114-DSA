@@ -14,18 +14,21 @@ Output = [3,1,1,1]
 def slidingWindow(array, k):
     hashMap = {}
     res = []
+
+    for r in range(k):
+        hashMap[array[r]] = hashMap.get(array[r], 0) + 1
+    res.append(max(hashMap, key=hashMap.get))
+
     left = 0
     right = k
-    while right <= len(array):
-        for r in range(left, right):
-            hashMap[array[r]] = hashMap.get(array[r], 0) + 1
+    while right < len(array):
 
-        res.append(max(hashMap, key=hashMap.get))
+        hashMap[array[right]] = hashMap.get(array[right], 0) + 1
         hashMap[array[left]] -= 1
         if hashMap[array[left]] == 0:
             del hashMap[array[left]]
+        res.append(max(hashMap, key=hashMap.get))
         right += 1
-        hashMap[array[right]] = hashMap.get(array[right], 0) + 1
         left += 1
     return res
 
